@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Field Force Dashboard</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            padding: 40px;
+            background: #111;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: #222;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Field Force Management System</h1>
+
+    <div class="card">
+
+        <h2>Login</h2>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Username"
+        />
+
+        <br>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+        />
+
+        <br>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Dashboard</h2>
+
+        <button onclick="loadDashboard()">
+            Load Dashboard
+        </button>
+
+        <pre id="dashboard"></pre>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Tasks</h2>
+
+        <button onclick="loadTasks()">
+            Load Tasks
+        </button>
+
+        <pre id="tasks"></pre>
+
+    </div>
+
+    <script>
+
+        let token = ""
+
+        async function login() {
+
+            const username =
+                document.getElementById("username").value
+
+            const password =
+                document.getElementById("password").value
+
+            const response = await fetch(
+                "/api/token/",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            )
+
+            const data = await response.json()
+
+            token = data.access
+
+            alert("Login Successful")
+        }
+
+        async function loadDashboard() {
+
+            const response = await fetch(
+                "/api/dashboard/",
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            )
+
+            const data = await response.json()
+
+            document.getElementById(
+                "dashboard"
+            ).innerText =
+                JSON.stringify(data, null, 2)
+        }
+
+        async function loadTasks() {
+
+            const response = await fetch(
+                "/api/tasks/",
+                {
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            )
+
+            const data = await response.json()
+
+            document.getElementById(
+                "tasks"
+            ).innerText =
+                JSON.stringify(data, null, 2)
+        }
+
+    </script>
+
+</body>
+</html>
