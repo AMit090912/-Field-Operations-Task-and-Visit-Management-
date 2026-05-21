@@ -1,92 +1,91 @@
 # Field Force Management System
 
-A backend-focused Field Force Management System built using Django REST Framework.  
-The project demonstrates role-based access control, task management, visit tracking, mocked AI integration, activity logging, and reporting APIs.
+A backend-focused Field Force Management System built using Django REST Framework with JWT authentication, role-based access control, visit tracking, mocked AI integration, activity logs, and reporting APIs.
 
----
+## Features
 
-# Features
+- JWT Authentication
+- Role-Based Access Control (RBAC)
+- Task Management
+- Visit Tracking
+- Mock AI Summary & Risk Flags
+- Activity Logs
+- Dashboard APIs
+- Reporting APIs
+- Simple Frontend using Django Templates
 
-## Authentication
-- JWT Authentication using Simple JWT
-- Protected APIs
-
-## Role-Based Access Control (RBAC)
-Supported roles:
-- Admin
-- Regional Manager
-- Team Lead
-- Field Agent
-- Auditor
-
-Scoped visibility implemented using queryset filtering.
-
----
-
-# Core Modules
-
-## Task Management
-- Create tasks
-- Assign tasks
-- Update task status
-- List tasks based on user role
-
-## Visit Tracking
-- Create visits
-- Add visit notes
-- Track visit status
-
-## Mock AI Integration
-A mocked AI service analyzes visit notes and:
-- generates AI summaries
-- assigns risk flags
-
-Example:
-- Notes containing keywords like `delay` or `angry`
-  generate HIGH risk flags.
-
-## Activity Logs
-Tracks:
-- Task creation
-- Visit creation
-
-## Dashboard APIs
-Provides summary statistics:
-- total tasks
-- completed tasks
-- total visits
-
-## Reporting APIs
-Implemented reporting endpoints:
-- Pending tasks by region
-- Visits completed in last 7 days
-- Task status distribution
-
----
-
-# Tech Stack
+## Tech Stack
 
 - Django
 - Django REST Framework
 - Simple JWT
 - SQLite
-- HTML/CSS/JavaScript frontend
 
----
+## Setup
 
-# Project Structure
+```bash
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+## Frontend
 
 ```txt
-backend/
-│
-├── ai_service/
-├── core/
-├── logs/
-├── tasks/
-├── users/
-├── visits/
-├── templates/
-│
-├── manage.py
-├── requirements.txt
-└── README.md
+http://127.0.0.1:8000/
+```
+
+## Admin Panel
+
+```txt
+http://127.0.0.1:8000/admin/
+```
+
+## Main APIs
+
+### Authentication
+
+```http
+POST /api/token/
+```
+
+### Tasks
+
+```http
+GET /api/tasks/
+POST /api/tasks/
+```
+
+### Visits
+
+```http
+POST /api/visits/
+```
+
+### Logs
+
+```http
+GET /api/logs/
+```
+
+### Dashboard
+
+```http
+GET /api/dashboard/
+```
+
+### Reports
+
+```http
+GET /api/reports/pending-tasks/
+GET /api/reports/recent-visits/
+GET /api/reports/task-status/
+```
+
+## Mock AI
+
+A mocked AI service analyzes visit notes and generates:
+- AI summaries
+- Risk flags
+
+The AI layer is modular and can later be replaced with real LLM integrations.
